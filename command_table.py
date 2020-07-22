@@ -30,7 +30,15 @@ class Command:
                 possible_actions, key=lambda x: x[0], reverse=True)
             return possible_actions[0][1], possible_actions[0][2]
         else:
-            raise "Params not found"
+            possible_actions = []
+            for param_str in self.next_cmd.keys():
+                for nx_cmd, nx_item in self.next_cmd[param_str].items():
+                    for nx_param, counter in nx_item.counter.items():
+                        possible_actions.append((counter, nx_cmd, nx_param))
+            possible_actions = sorted(
+                possible_actions, key=lambda x: x[0], reverse=True)
+            return possible_actions[0][1], possible_actions[0][2]
+
 
     @staticmethod
     def parse_params(param_str):

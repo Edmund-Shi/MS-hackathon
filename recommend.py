@@ -8,6 +8,7 @@ def main():
     cmd_table.update_table(dataset)
     nx_cmd = cmd_table.get_next_command(
         "account get-access-token", "-o,--resource")
+    nx_cmd = cmd_table.get_next_command("vm create", "")
     print(nx_cmd)
 
 
