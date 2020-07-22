@@ -5,7 +5,7 @@ def get_dataset():
     filename = "export.csv"
     dataset = {}
     header = []
-    with open(filename,encoding='utf-8') as f:
+    with open(filename, encoding='utf-8') as f:
         reader = csv.reader(f)
         for row in reader:
             uid, command, params, os_type, source, begin, end = row
@@ -20,6 +20,7 @@ def get_dataset():
                     continue  # duplicate
                 dataset[uid].append(row[1:])
     return dataset
+
 
 if __name__ == "__main__":
     get_dataset()
