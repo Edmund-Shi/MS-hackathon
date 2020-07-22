@@ -54,11 +54,10 @@ class CommandTable:
                 cmd, param_str, *_ = dataset[uid][i]
                 if cmd == "" and param_str == "":
                     continue  # empty command
-                elif cmd in self._table:
-                    # update with next command
-                    self._table[cmd].update(param_str, dataset[uid][i+1])
-                else:
+                elif cmd not in self._table:
                     self._table[cmd] = Command(cmd, param_str)
+                # update with next command
+                self._table[cmd].update(param_str, dataset[uid][i+1])
 
     def get_next_command(self, cmd, params):
         if cmd not in self._table:
