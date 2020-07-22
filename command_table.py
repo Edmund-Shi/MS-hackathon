@@ -28,7 +28,8 @@ class Command:
                     possible_actions.append((counter, nx_cmd, nx_param))
             possible_actions = sorted(
                 possible_actions, key=lambda x: x[0], reverse=True)
-            return possible_actions[0][1], possible_actions[0][2]
+            total_cnt = sum(item[0] for item in possible_actions)
+            return possible_actions[0][1], possible_actions[0][2], possible_actions[0][0] / total_cnt
         else:
             possible_actions = []
             for param_str in self.next_cmd.keys():
@@ -37,7 +38,8 @@ class Command:
                         possible_actions.append((counter, nx_cmd, nx_param))
             possible_actions = sorted(
                 possible_actions, key=lambda x: x[0], reverse=True)
-            return possible_actions[0][1], possible_actions[0][2]
+            total_cnt = sum(item[0] for item in possible_actions)
+            return possible_actions[0][1], possible_actions[0][2], possible_actions[0][0] / total_cnt
 
 
     @staticmethod
