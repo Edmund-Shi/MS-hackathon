@@ -16,8 +16,10 @@ class Command:
     def update(self, params_str, next_record):
         '''update next record'''
         nx_cmd, nx_param, *_ = next_record
-        if params_str not in self.next_cmd or nx_cmd not in self.next_cmd[params_str]:
-            self.next_cmd[params_str] = {nx_cmd: self.NextItem(nx_cmd)}
+        if params_str not in self.next_cmd:
+            self.next_cmd[params_str] = {}
+        if nx_cmd not in self.next_cmd[params_str]:
+            self.next_cmd[params_str][nx_cmd] = self.NextItem(nx_cmd)
         self.next_cmd[params_str][nx_cmd].update(nx_param)
 
     def get_next(self, param_str):
