@@ -43,6 +43,14 @@ class Command:
             total_cnt = sum(item[0] for item in possible_actions)
             return possible_actions[0][1], possible_actions[0][2], possible_actions[0][0] / total_cnt
 
+    def analyze_params(self):
+        all_cmds = set()
+        cnt = 0
+        for params in self.next_cmd.keys():
+            all_cmds.add(self.get_next(params))
+            cnt += len(self.next_cmd[params])
+        return len(all_cmds), cnt
+
 
     @staticmethod
     def parse_params(param_str):
@@ -73,6 +81,18 @@ class CommandTable:
 
     def get_next_command(self, cmd, params):
         if cmd not in self._table:
-            raise "Command not found"  # TODO(shiyue) fall back solution
+            raise Exception("Command not found")  # TODO(shiyue) fall back solution
         next_cmd = self._table[cmd].get_next(params)
         return next_cmd
+
+    def analyze_params(self):
+        dist = 0
+        cnt = 0
+        for cmd in self._table.keys():
+            x, y = self._table[cmd].analyze_params()
+            dist += x
+            cnt += y
+        return dist, cnt, len(self._table.keys())
+
+
+        
