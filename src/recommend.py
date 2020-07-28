@@ -1,6 +1,7 @@
 import mock_data
 from command_table import CommandTable
 
+
 def print_cmd(nx_cmd):
     cmd, params, confidence = nx_cmd
     print("{:.2f}% people use run this command: {} {}".format(confidence*100, cmd, ' '.join(params.split(','))))
@@ -9,6 +10,7 @@ def print_cmd(nx_cmd):
 def test_cmd(cmd_table, cmd, params):
     print("After run {} {}".format(cmd, params))
     print_cmd(cmd_table.get_next_command(cmd, params))
+
 
 def main():
     dataset = mock_data.get_dataset()
