@@ -51,7 +51,6 @@ class Command:
             cnt += len(self.next_cmd[params])
         return len(all_cmds), cnt
 
-
     @staticmethod
     def parse_params(param_str):
         params = param_str.split(',')
@@ -93,6 +92,3 @@ class CommandTable:
             dist += x
             cnt += y
         return dist, cnt, len(self._table.keys())
-
-
-        

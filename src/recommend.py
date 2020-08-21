@@ -1,4 +1,4 @@
-import mock_data
+import access_data
 from command_table import CommandTable
 
 
@@ -13,7 +13,7 @@ def test_cmd(cmd_table, cmd, params):
 
 
 def main():
-    dataset = mock_data.get_dataset()
+    dataset = access_data.get_dataset()
     cmd_table = CommandTable()
     cmd_table.update_table(dataset)
     dist, cnt, cmd_cnt = cmd_table.analyze_params()
