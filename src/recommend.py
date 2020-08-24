@@ -1,6 +1,7 @@
 import access_data
 from command_table import CommandTable
 from cosmos_client import MyCosmosClient
+import utils.config as config
 
 
 def print_cmd(nx_cmd):
@@ -14,7 +15,7 @@ def test_cmd(cmd_table, cmd, params):
 
 
 def main():
-    db_client = MyCosmosClient()
+    db_client = MyCosmosClient(config.cosmos_config)
     cmd_table = CommandTable()
     records = db_client.query_all_items()
     cmd_table.load_from_cosmos(records)

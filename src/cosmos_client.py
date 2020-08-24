@@ -1,18 +1,13 @@
 import azure.cosmos.cosmos_client as cosmos_client
 
-import utils.config as config
-
-HOST = config.settings['host']
-MASTER_KEY = config.settings['master_key']
-DATABASE_ID = config.settings['database_id']
-
 
 class MyCosmosClient:
-    def __init__(self):
-        client = cosmos_client.CosmosClient(HOST, {"masterKey": MASTER_KEY})
+    def __init__(self, config):
+        self._config = config
+        client = cosmos_client.CosmosClient(config['host'], {"masterKey": config['master_key']})
         self._client = client
-        self._db = self._client.get_database_client(config.settings['database_id'])
-        self._container = self._db.get_container_client(config.settings['container_id'])
+        self._db = self._client.get_database_client(config['database_id'])
+        self._container = self._db.get_container_client(config['container_id'])
 
     def client(self):
         return self._client
