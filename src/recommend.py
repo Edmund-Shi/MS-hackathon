@@ -1,5 +1,6 @@
 import access_data
 from command_table import CommandTable
+from cosmos_client import MyCosmosClient
 
 
 def print_cmd(nx_cmd):
@@ -16,8 +17,11 @@ def main():
     dataset = access_data.get_dataset()
     cmd_table = CommandTable()
     cmd_table.update_table(dataset)
-    dist, cnt, cmd_cnt = cmd_table.analyze_params()
-    print("Dist: {}, cnt: {}, cmd_cnt: {}, perc: {}".format(dist, cnt, cmd_cnt, dist/cnt))
+    cosmos_data = cmd_table.dump_table()
+    print(len(cosmos_data))
+    db_client = MyCosmosClient()
+    for i in range(min(10, len(cosmos_data))):
+        db_client.insert(cosmos_data[i])
 
     # nx_cmd = cmd_table.get_next_command(
     #     "account get-access-token", "-o,--resource")
