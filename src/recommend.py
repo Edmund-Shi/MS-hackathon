@@ -14,25 +14,16 @@ def test_cmd(cmd_table, cmd, params):
 
 
 def main():
-    dataset = access_data.get_dataset()
+    db_client = MyCosmosClient()
     cmd_table = CommandTable()
+    records = db_client.query_all_items()
+    cmd_table.load_from_cosmos(records)
+    dataset = access_data.get_dataset()
     cmd_table.update_table(dataset)
     cosmos_data = cmd_table.dump_table()
-    print(len(cosmos_data))
-    db_client = MyCosmosClient()
-    for i in range(min(10, len(cosmos_data))):
-        db_client.insert(cosmos_data[i])
 
-    # nx_cmd = cmd_table.get_next_command(
-    #     "account get-access-token", "-o,--resource")
-    # nx_cmd = cmd_table.get_next_command("vm create", "")
-    # print_cmd(nx_cmd)
-    # test_cmd(cmd_table, "vm list", "")
-    # test_cmd(cmd_table, "webapp create", "")
-    # test_cmd(cmd_table, "login", "--identity")
-    # test_cmd(cmd_table, "keyvault secret show", "")
-    # test_cmd(cmd_table, "group deployment create", "")
-    # test_cmd(cmd_table, "backup policy list", "")
+    # for i in range(min(10, len(cosmos_data))):
+    #     db_client.insert(cosmos_data[i])
 
 
 if __name__ == "__main__":

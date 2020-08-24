@@ -4,8 +4,8 @@ class Command:
             self.cmd = cmd
             self.counter = {}
 
-        def update(self, param_str):
-            self.counter[param_str] = self.counter.get(param_str, 0) + 1
+        def update(self, param_str, count=1):
+            self.counter[param_str] = self.counter.get(param_str, 0) + count
 
     def __init__(self, cmd):
         self.cmd = cmd
@@ -20,6 +20,14 @@ class Command:
             self.next_cmd[nx_cmd] = self.NextItem(nx_cmd)
         self.next_cmd[nx_cmd].update(nx_param)
         self.total_cnt += 1
+
+    def load_from_cosmos(self, data):
+        self.total_cnt += data['totalCount']
+        for nx_cmd in data['nextCommand']:
+            cmd_str = nx_cmd['command']
+            if cmd_str not in self.next_cmd:
+                self.next_cmd[cmd_str] = self.NextItem(cmd_str)
+            self.next_cmd[cmd_str].update(','.join(nx_cmd['arguments']), nx_cmd['count'])
 
     def get_next(self, param_str):
         if param_str in self.next_cmd:
@@ -94,6 +102,13 @@ class CommandTable:
                     self._table[cmd] = Command(cmd)
                 # update with next command
                 self._table[cmd].update(dataset[uid][i+1])
+
+    def load_from_cosmos(self, dataset):
+        for data in dataset:
+            cmd = data['command']
+            if cmd not in self._table:
+                self._table[cmd] = Command(cmd)
+            self._table[cmd].load_from_cosmos(data)
 
     def get_next_command(self, cmd, params):
         if cmd not in self._table:

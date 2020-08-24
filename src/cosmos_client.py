@@ -23,6 +23,10 @@ class MyCosmosClient:
     def query(self, query_str):
         return self._container.query_items(query_str, enable_cross_partition_query=True)
 
+    def query_all_items(self):
+        query_str = 'select * from c'
+        return self.query(query_str)
+
     def insert(self, item):
         return self._container.upsert_item(item)
 
